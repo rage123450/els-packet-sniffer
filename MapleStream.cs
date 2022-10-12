@@ -111,8 +111,8 @@ namespace MapleShark
                 Buffer.BlockCopy(decryptedBuffer_, 4, d, 0, (int) size - 4);
                 uint original_size = (uint)((decryptedBuffer_[0]) | (decryptedBuffer_[1] << 8) | (decryptedBuffer_[2] << 16) | (decryptedBuffer_[3] << 24));
 
-                c = SharpZipLibDecompress(d);
-//                c = ZLibDotnetDecompress(d, (int) original_size);
+//                c = SharpZipLibDecompress(d);
+                c = ZLibDotnetDecompress(d, (int) original_size);
             } else
             {
                 c = decryptedBuffer_;
