@@ -484,7 +484,14 @@ namespace MapleShark
             {
                 if (packet.Outbound) ++outboundCount;
                 else ++inboundCount;
-                tmp += string.Format("[{0}][{2}] [{3:X4}] {4}\r\n", packet.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff"), (packet.Outbound ? outboundCount : inboundCount), (packet.Outbound ? "Outbound" : "Inbound "), packet.Opcode, BitConverter.ToString(packet.InnerBuffer).Replace('-', ' '));
+                tmp += string.Format("[{0}][{2}] [{3:X4}] {4}\r\n",
+                    packet.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                    (packet.Outbound ? outboundCount : inboundCount), (packet.Outbound ? "Outbound" : "Inbound "),
+
+                    "0x" + packet.Opcode.ToString("X4") + " / " + packet.Opcode.ToString(),
+                    //packet.Opcode,
+
+                    BitConverter.ToString(packet.InnerBuffer).Replace('-', ' '));
                 i++;
                 if (i % 1000 == 0)
                 {

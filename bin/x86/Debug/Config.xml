@@ -1,6 +1,23 @@
 ﻿<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Interface>乙太網路</Interface>
-  <LowPort>9000</LowPort>
+  <LowPort>9100</LowPort>
   <HighPort>9500</HighPort>
-  <Definitions />
+  <Definitions>
+    <Definition>
+      <Build>0</Build>
+      <Locale>0</Locale>
+      <Outbound>true</Outbound>
+      <Opcode>131</Opcode>
+      <Name>EGS_CHAT_REQ</Name>
+      <Ignore>false</Ignore>
+    </Definition>
+    <Definition>
+      <Build>0</Build>
+      <Locale>0</Locale>
+      <Outbound>true</Outbound>
+      <Opcode>553</Opcode>
+      <Name>EGS_FIELD_UNIT_SYNC_DATA_NOT</Name>
+      <Ignore>false</Ignore>
+    </Definition>
+  </Definitions>
 </Config>

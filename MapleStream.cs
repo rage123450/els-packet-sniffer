@@ -81,7 +81,7 @@ namespace MapleShark
             mDES.SetIV(curIV);
 
             byte[] packetBuffer = new byte[packetSize];
-            Buffer.BlockCopy(dataBuffer, 22/*16*/, packetBuffer, 0, packetSize - 32/* - 26*/);
+            Buffer.BlockCopy(dataBuffer, 22/*16*/, packetBuffer, 0, packetSize - 32/*26*/);
 
             //bool byteheader = false;
 
@@ -92,16 +92,18 @@ namespace MapleShark
                 firstPacket = false;
             }
 
-            bool a = decryptedBuffer[7] == 1;
-            ushort opcode = (ushort) ( (decryptedBuffer[a ? 32 : 24] << 8) | (decryptedBuffer[a ? 33 : 25]) );
-            uint size = (uint) ( (decryptedBuffer[a ? 34 : 26] << 24) | (decryptedBuffer[a ? 35 : 27] << 16) | (decryptedBuffer[a ? 36 : 28] << 8) | (decryptedBuffer[a ? 37 : 29]) );
+            int SerializeHelperSize = ( (decryptedBuffer[4] << 24) | (decryptedBuffer[5] << 16) | (decryptedBuffer[6] << 8) | (decryptedBuffer[7]));
+            int offset = 8 * SerializeHelperSize;
+
+            ushort opcode = (ushort) ( (decryptedBuffer[24 + offset] << 8) | (decryptedBuffer[25 + offset]) );
+            uint size = (uint) ( (decryptedBuffer[26 + offset] << 24) | (decryptedBuffer[27 + offset] << 16) | (decryptedBuffer[28 + offset] << 8) | (decryptedBuffer[29 + offset]) );
+
             bool b = size > 0;
-            bool compress = b && decryptedBuffer[a ? 38 : 30] == 1;
+            bool compress = b && decryptedBuffer[30 + offset] == 1;
 
             byte[] decryptedBuffer_ = new byte[size];
-            int start = (b ? 31 : 30);
-            if (a) start += 8;
-            Buffer.BlockCopy(decryptedBuffer, start, decryptedBuffer_, 0, (int) size);
+            int BufferStart = (b ? 31 : 30) + offset;
+            Buffer.BlockCopy(decryptedBuffer, BufferStart, decryptedBuffer_, 0, (int) size);
 
 //            byte[] c = compress ? ZlibStream.UncompressBuffer(decryptedBuffer_) : decryptedBuffer_;
 
@@ -141,7 +143,7 @@ namespace MapleShark
         {
             MemoryStream compressed = new MemoryStream(data);
             ZInputStream inputStream = new ZInputStream(compressed);
-            byte[] result = new byte[size];   // 由於ZInputStream 繼承的是BinaryReader而不是Stream, 只能提前準備好輸出的 buffer 然後用 read 獲取定長資料。
+            byte[] result = new byte[size];
             inputStream.Read(result, 0, result.Length);
             return result;
         }

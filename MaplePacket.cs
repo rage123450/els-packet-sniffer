@@ -20,7 +20,10 @@ namespace MapleShark
                 pTimestamp.ToString(),//((pTimestamp - new DateTime(1970, 1, 1)).Ticks / 10000 / 1000).ToString("X8"),
                 pOutbound ? "Outbound" : "Inbound",
                 pBuffer.Length.ToString(),
-                "0x" + pOpcode.ToString("X4"),
+
+                "0x" + pOpcode.ToString("X4") + " / " +pOpcode.ToString(),
+                //"0x" + pOpcode.ToString("X4"),
+
                 pName })
         {
             mTimestamp = pTimestamp;
