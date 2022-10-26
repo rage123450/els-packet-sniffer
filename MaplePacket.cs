@@ -21,7 +21,7 @@ namespace MapleShark
                 pOutbound ? "Outbound" : "Inbound",
                 pBuffer.Length.ToString(),
 
-                "0x" + pOpcode.ToString("X4") + " / " +pOpcode.ToString(),
+                "0x" + pOpcode.ToString("X4") + " / " + pOpcode.ToString(),
                 //"0x" + pOpcode.ToString("X4"),
 
                 pName })

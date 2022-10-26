@@ -17,13 +17,17 @@ namespace MapleShark
 
         public byte? Byte { get { if (mBuffer.Length == 1) return mBuffer[0]; return null; } }
         //public sbyte? SByte { get { if (mBuffer.Length == 1) return (sbyte)mBuffer[0]; return null; } }
+
         //public ushort? SShort
         //{
-        //    get {
-        //        if (mBuffer.Length == 2) {
-        //            Array.Reverse(mBuffer, 0, 2);
+        //    get
+        //    {
+        //        if (mBuffer.Length == 2)
+        //        {
         //            return BitConverter.ToUInt16(mBuffer, 0);
-        //        } else {
+        //        }
+        //        else
+        //        {
         //            return null;
         //        }
         //    }
@@ -34,8 +38,8 @@ namespace MapleShark
             {
                 if (mBuffer.Length == 2)
                 {
-                    Array.Reverse(mBuffer, 0, 2);
-                    return BitConverter.ToInt16(mBuffer, 0);
+                    return (short) ((mBuffer[0] << 8) | (mBuffer[1]));
+                    //return BitConverter.ToInt16(mBuffer, 0);
                 }
                 else
                 {
@@ -64,8 +68,8 @@ namespace MapleShark
             {
                 if (mBuffer.Length == 4)
                 {
-                    Array.Reverse(mBuffer, 0, 4);
-                    return BitConverter.ToInt32(mBuffer, 0);
+                    return (mBuffer[0] << 24) | (mBuffer[1] << 16) | (mBuffer[2] << 8) | (mBuffer[3]);
+                    //return BitConverter.ToInt32(mBuffer, 0);
                 }
                 else
                 {
@@ -79,7 +83,6 @@ namespace MapleShark
         //    {
         //        if (mBuffer.Length == 8)
         //        {
-        //            Array.Reverse(mBuffer, 0, 8);
         //            return BitConverter.ToUInt64(mBuffer, 0);
         //        }
         //        else
@@ -94,8 +97,8 @@ namespace MapleShark
             {
                 if (mBuffer.Length == 8)
                 {
-                    Array.Reverse(mBuffer, 0, 8);
-                    return BitConverter.ToInt64(mBuffer, 0);
+                    return (mBuffer[0] << 56) | (mBuffer[1] << 48) | (mBuffer[2] << 40) | (mBuffer[3] << 32) | (mBuffer[4] << 24) | (mBuffer[5] << 16) | (mBuffer[6] << 8) | (mBuffer[7]);
+                    //return BitConverter.ToInt64(mBuffer, 0);
                 }
                 else
                 {
@@ -147,41 +150,41 @@ namespace MapleShark
             }
         }
 
-        public DateTime? Date
-        {
-            get
-            {
-                try
-                {
-                    if (mBuffer.Length >= 8)
-                        return DateTime.FromFileTimeUtc(BitConverter.ToInt64(mBuffer, 0));
-                }
-                catch { }
-                return null;
-            }
-        }
+        //public DateTime? Date
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            if (mBuffer.Length >= 8)
+        //                return DateTime.FromFileTimeUtc(BitConverter.ToInt64(mBuffer, 0));
+        //        }
+        //        catch { }
+        //        return null;
+        //    }
+        //}
 
-        public DateTime? FlippedDate
-        {
-            get
-            {
-                try
-                {
-                    if (mBuffer.Length >= 8)
-                    {
-                        long time = BitConverter.ToInt64(mBuffer, 0);
-                        time = (long)(
-                            ((time << 32) & 0xFFFFFFFF) |
-                            (time & 0xFFFFFFFF)
-                            );
+        //public DateTime? FlippedDate
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            if (mBuffer.Length >= 8)
+        //            {
+        //                long time = BitConverter.ToInt64(mBuffer, 0);
+        //                time = (long)(
+        //                    ((time << 32) & 0xFFFFFFFF) |
+        //                    (time & 0xFFFFFFFF)
+        //                    );
 
-                        return DateTime.FromFileTimeUtc(time);
-                    }
-                }
-                catch { }
-                return null;
-            }
-        }
+        //                return DateTime.FromFileTimeUtc(time);
+        //            }
+        //        }
+        //        catch { }
+        //        return null;
+        //    }
+        //}
         public string Length
         {
             get
